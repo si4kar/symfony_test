@@ -49,6 +49,30 @@ class Product
      */
     private $category;
 
+    /**
+     * @var bool
+     * @ORM\Column(name="active", type="boolean", options={"default": true})
+     */
+    private $active = true;
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     * @return Product
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+        return $this;
+    }
+
 
     /**
      * Get id
