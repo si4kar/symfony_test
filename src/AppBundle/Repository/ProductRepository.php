@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Category;
+use AppBundle\Entity\Product;
 
 /**
  * ProductRepository
@@ -10,4 +12,31 @@ namespace AppBundle\Repository;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @return Product[]
+     */
+        public function findActive()
+    {
+        return $this
+            ->createQueryBuilder('product')
+            ->join('product.category', 'category')
+            ->where('product.active = :active')
+            ->andWhere('category.active = :active')
+            ->setParameter('active', 1)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByCategory(Category $category)
+    {
+        return $this
+            ->createQueryBuilder('product')
+            ->where('product.active = 1')
+            ->andWhere('product.category = :category')
+            ->setParameter('category', $category)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
